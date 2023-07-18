@@ -1,0 +1,118 @@
+package com.example.gemasmeyerapp_ver2.Data
+
+import android.content.Context
+import android.content.Intent
+import android.text.TextUtils
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
+import com.example.gemasmeyerapp_ver2.Views.MainActivity
+import com.example.gemasmeyerapp_ver2.Views.ProviderType
+
+class Constantes {
+    companion object {
+        const val URL_API = "http://apijoyeriav2.somee.com/api/"
+        const val CANTIDAD_PRODUCTOS_EN_STOCK_KEY = "cantidad_productos"
+        //tipo alerta
+        enum class TIPO_ALERTA {
+            ALERTA_SIMPLE,
+            ALERTA_POS_NEG,
+            OTRO
+        }
+        //navegación
+        fun pasarPantalla(actividadActual: Context, actividad: Class<*>) {
+            val intencion = Intent(actividadActual,actividad)
+            startActivity(actividadActual,intencion,null)
+            //finish()
+        }
+        fun pasarPantallaHome(actividadActual:Context,actividad: Class<*>,email: String?,provider: ProviderType) {
+            val intencion = Intent(actividadActual,actividad).apply {
+                putExtra("email",email)
+                putExtra("provider",provider.name)
+            }
+            startActivity(actividadActual,intencion,null)
+        }
+        fun pasarPantallaCompra(actividadActual:Context,actividad: Class<*>,total: Int?) {
+            val intencion = Intent(actividadActual,actividad).apply {
+                putExtra("total",total)
+            }
+            startActivity(actividadActual,intencion,null)
+        }
+        //validaciones
+        // Validar contraseña
+        fun validarClave(contrasena: String,editText: EditText): Boolean {
+            // Al menos 8 caracteres, al menos una letra y un número
+            val contrasenaRegex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^\\da-zA-Z]).{8,}\$")
+            return if(contrasena.matches(contrasenaRegex)) true else
+            {
+                editText.error = """
+                La contraseña debe tener 8 caracteres y contener por lo menos un letra mayúscula,
+                una letra minúscula, un número y un caracter especial.
+            """.trimIndent()
+                false
+            }
+        }
+        // Validar correo electrónico
+        fun validarCorreoElectronico(correo: String,editText: EditText): Boolean {
+            return if(android.util.Patterns.EMAIL_ADDRESS.matcher(correo).matches()) true else
+            {
+                editText.error = """
+                El correo electrónico debe contener almenos una @ y un dominio .com .es,etc..
+            """.trimIndent()
+                false
+            }
+        }
+        // Validar CI
+        fun validarCI(ci: String,editText: EditText): Boolean {
+            // Suponiendo que el número de identificación debe tener exactamente 8 dígitos
+            val ciRegex = Regex("^[0-9]{7,10}\$")
+            return if(ci.matches(ciRegex)) true else {
+                editText.error = "El CI debe contener al menos 7 dígitos."
+                false
+            }
+        }
+        // Validar nombre
+        fun validarNombre(nombre: String,editText: EditText): Boolean {
+            // Suponiendo que el número de identificación debe tener exactamente 8 dígitos
+            val nombreRegex = Regex("^[A-Za-zÁÉÍÓÚáéíóúÑñ ]{15,50}\$")
+            return if(nombre.matches(nombreRegex)) true else {
+                editText.error = """
+                    El nombre debe tener mínimamente 15 caracteres, 
+                    no puede exceder los 50 caracteres y solo puede utilizar letras/espacio.
+                """.trimIndent()
+                false
+            }
+        }
+        //componentes
+        fun showAlert(actividadActual:Context,titulo:String,mensaje:String,tipoAlerta: TIPO_ALERTA) {
+            when(tipoAlerta)
+            {
+                TIPO_ALERTA.ALERTA_SIMPLE -> {
+                    val builder = AlertDialog.Builder(actividadActual)
+                    builder.setTitle(titulo)
+                    builder.setMessage(mensaje)
+                    builder.setPositiveButton("Aceptar", null)
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+                }
+                TIPO_ALERTA.ALERTA_POS_NEG -> {
+                    val builder = AlertDialog.Builder(actividadActual)
+                    builder.setTitle(titulo)
+                    builder.setMessage(mensaje)
+                    builder.setPositiveButton("Aceptar", {dialog,which -> pasarPantalla(actividadActual,MainActivity::class.java)})
+                    builder.setNegativeButton("Cancelar", null)
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+                }
+                else -> {
+                    val builder = AlertDialog.Builder(actividadActual)
+                    builder.setTitle(titulo)
+                    builder.setMessage(mensaje)
+                    builder.setPositiveButton("Aceptar", null)
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+                }
+            }
+        }
+    }
+}
