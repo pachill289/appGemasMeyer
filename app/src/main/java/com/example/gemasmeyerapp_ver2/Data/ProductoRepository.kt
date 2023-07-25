@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class ProductoRepository : solicitudesProductos {
 
-    private val productService: solicitudesProductos
+    private val productoServicio: solicitudesProductos
 
     init {
         val retrofit = Retrofit.Builder()
@@ -14,13 +14,13 @@ class ProductoRepository : solicitudesProductos {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-        productService = retrofit.create(solicitudesProductos::class.java)
+        productoServicio = retrofit.create(solicitudesProductos::class.java)
     }
 
     override suspend fun obtenerProductos(): JsonArray {
-        return productService.obtenerProductos()
+        return productoServicio.obtenerProductos()
     }
     override suspend fun obtenerProductosEnStock(): JsonArray {
-        return productService.obtenerProductosEnStock()
+        return productoServicio.obtenerProductosEnStock()
     }
 }

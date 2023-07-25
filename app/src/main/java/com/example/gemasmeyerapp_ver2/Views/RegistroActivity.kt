@@ -61,6 +61,7 @@ class RegistroActivity : AppCompatActivity() {
             Constantes.validarNombre(binding.etNombre.text.toString(),binding.etNombre)
         }
         binding.btnRegistrarse.setOnClickListener {
+            val contexto = this
             if(camposValidos())
             {
                 if(validarCampos())
@@ -70,7 +71,6 @@ class RegistroActivity : AppCompatActivity() {
                     clave = binding.etClaveRegistro.text.toString()
                     nombre = binding.etNombre.text.toString()
                     //Registro API
-                    val contexto = this
                     val usuarioNuevo = Usuario(ci,clave,email,null,estado,nombre)
                     val usuarioRepository = UsuarioRepository()
                     val llamadaRegistro = usuarioRepository.registrarUsuario(usuarioNuevo)
@@ -100,6 +100,10 @@ class RegistroActivity : AppCompatActivity() {
                             Constantes.showAlert(contexto,"Error","Se ha producido un error: $t",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
                         }
                     })
+                }
+                else
+                {
+                    Constantes.showAlert(contexto,"Error","Debe asegurarse de que todos los campos introducidos son correctos",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
                 }
             }
             else

@@ -1,32 +1,21 @@
 package com.example.gemasmeyerapp_ver2
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.os.Environment
-import android.util.LruCache
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.*
-import androidx.core.graphics.drawable.toBitmap
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.ImageLoader
 import coil.load
-import coil.request.ImageRequest
-import coil.request.SuccessResult
 import com.example.gemasmeyerapp_ver2.Data.Constantes
 import com.example.gemasmeyerapp_ver2.Models.Producto
 import com.example.gemasmeyerapp_ver2.Models.ProductoCompra
-import com.example.gemasmeyerapp_ver2.Views.PagoActivity
+import com.example.gemasmeyerapp_ver2.Views.StoreFragment
 import com.example.gemasmeyerapp_ver2.databinding.FragmentStoreBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-
+private const val ARG_PARAM1 = "nombreProducto"
 class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentStoreBinding): RecyclerView.Adapter<AdaptadorProductos.ViewHolderProductos>() {
     private var montoTotal = 0
     private var listaProductos = listaP
@@ -36,6 +25,7 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
     private val listaProductoCompra = mutableListOf<ProductoCompra>()
     private var nuevaCantidad = 1
     private var total = 0
+    private var bundle = Bundle()
 
     class ViewHolderProductos(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textoNombre = itemView.findViewById<TextView>(R.id.txtNombreProducto)
@@ -47,7 +37,6 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
         val btnSumarCantidad = itemView.findViewById<Button>(R.id.btnAdicionar)
         val btnRestarCantidad = itemView.findViewById<Button>(R.id.btnRestar)
         val btnAgregarProducto = itemView.findViewById<Button>(R.id.btnAgregar)
-        val txtTotal = itemView.findViewById<TextView>(R.id.txtTotal)
 
     }
 
@@ -59,25 +48,14 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
             datosDetalleCompra.clear()
             adaptadorListaDetalles.clear()
             listaProductoCompra.clear()
+            bundle.clear()
             total = 0
             actividadFragmentStore.txtTotal.text = "Total: Bs.${total}"
-        }
-        actividadFragmentStore.btnComprar.setOnClickListener {
-            if(total>0)
-            {
-                //Realizar petición POST para insertar un nuevo pedido
-                //Constantes.pasarPantallaCompra(actividadFragmentStore.root.context,PagoActivity::class.java,total)
-            }
-            else
-            {
-                Constantes.showAlert(actividadFragmentStore.root.context,"Mensaje","Primero debe seleccionar un producto",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
-            }
         }
         return ViewHolderProductos(vista)
     }
 
     override fun getItemCount(): Int = listaProductos.size
-
 
     override fun onBindViewHolder(holder: ViewHolderProductos, position: Int) {
         holder.textoNombre.text = listaProductos[position].nombre
@@ -136,6 +114,9 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
         }
         //Agregar productos
         holder.btnAgregarProducto.setOnClickListener {
+            //Pasar el id del producto seleccionado
+            val st = FragmentManager.findFragment<StoreFragment>(actividadFragmentStore.root)
+            st.arguments?.putString(ARG_PARAM1,listaProductos[position].nombre)
             if(!listaProductoCompra.contains(ProductoCompra(nuevaCantidad, listaProductos[position].precio))) {
                 adaptadorListaDetalles.add(
                     """
@@ -143,7 +124,7 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
                 Producto: ${listaProductos[position].nombre}
                 Precio: ${listaProductos[position].precio}
                 Cantidad: $nuevaCantidad
-                
+
             """.trimIndent()
                 )
                 listaProductoCompra.add(
@@ -152,6 +133,7 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
                         listaProductos[position].precio
                     )
                 )
+
                 total += nuevaCantidad * listaProductos[position].precio
                 actividadFragmentStore.txtTotal.text = "Total: Bs.${total}"
             }
