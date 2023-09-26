@@ -1,22 +1,30 @@
 package com.example.gemasmeyerapp_ver2.Data
 
+import android.R
 import android.content.Context
 import android.content.Intent
-import android.text.TextUtils
+import android.view.View
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat.startActivity
 import com.example.gemasmeyerapp_ver2.Views.MainActivity
 import com.example.gemasmeyerapp_ver2.Views.ProviderType
+import com.example.gemasmeyerapp_ver2.databinding.ActivityMainBinding
+
 
 class Constantes {
     companion object {
         const val URL_API = "http://apijoyeriav2.somee.com/api/"
+        const val URL_DEEP_AI_API = "https://api.deepai.org/"
+        const val API_KEY_DEEP_AI = "d5b5d6f9-7ac3-4373-bb1f-fc5d52e419f5"
         const val CANTIDAD_PRODUCTOS_EN_STOCK_KEY = "cantidad_productos"
+        //const val API_KEY_OPENAI = "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"
+        const val API_KEY_OPENAI = "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"
         //tipo alerta
         enum class TIPO_ALERTA {
             ALERTA_SIMPLE,
             ALERTA_POS_NEG,
+            CARRITO,
             OTRO
         }
         //navegación
@@ -84,7 +92,7 @@ class Constantes {
             }
         }
         //componentes
-        fun showAlert(actividadActual:Context,titulo:String,mensaje:String,tipoAlerta: TIPO_ALERTA) {
+        fun showAlert(actividadActual:Context,titulo:String,mensaje:String,tipoAlerta: TIPO_ALERTA,adaptador: View? = null) {
             when(tipoAlerta)
             {
                 TIPO_ALERTA.ALERTA_SIMPLE -> {
@@ -92,6 +100,14 @@ class Constantes {
                     builder.setTitle(titulo)
                     builder.setMessage(mensaje)
                     builder.setPositiveButton("Aceptar", null)
+                    val dialog: AlertDialog = builder.create()
+                    dialog.show()
+                }
+                TIPO_ALERTA.CARRITO -> {
+                    val builder = AlertDialog.Builder(actividadActual)
+                    builder.setTitle(titulo)
+                    builder.setView(adaptador)
+                    builder.setMessage(mensaje)
                     val dialog: AlertDialog = builder.create()
                     dialog.show()
                 }

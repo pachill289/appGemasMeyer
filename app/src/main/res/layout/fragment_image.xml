@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen_login"
+    android:visibility="visible"
+    tools:context=".Views.ImageFragment"
+    tools:visibility="visible">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/etReferencia"
+            style="@style/input"
+            android:layout_width="280dp"
+            android:layout_height="53dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/custom_email_icon"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:hint="@string/hint_referencia"
+            android:inputType="textEmailAddress"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etPrompt" />
+
+        <EditText
+            android:id="@+id/etPrompt"
+            style="@style/input"
+            android:layout_width="330dp"
+            android:layout_height="86dp"
+            android:layout_marginTop="136dp"
+            android:background="@drawable/custom_input"
+            android:drawableStart="@drawable/ic_prompt"
+            android:drawablePadding="12dp"
+            android:ems="10"
+            android:hint="@string/hint_prompt"
+            android:inputType="textMultiLine"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.45"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/txtTituloTienda"
+            style="@style/sub_titulo_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="@string/txt_img_ia"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnGenerar"
+            android:layout_width="116dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/boton"
+            android:text="@string/btn_texto_generar"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgNuevaJoya" />
+
+        <ImageView
+            android:id="@+id/imgNuevaJoya"
+            android:layout_width="190dp"
+            android:layout_height="145dp"
+            android:layout_marginTop="44dp"
+            android:background="@android:drawable/ic_menu_report_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etReferencia"
+            tools:src="@tools:sample/avatars" />
+
+        <ProgressBar
+            android:id="@+id/prBarImagenNuevaJoya"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="95dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="60dp"
+            app:layout_constraintEnd_toEndOf="@+id/imgNuevaJoya"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="@+id/imgNuevaJoya"
+            app:layout_constraintTop_toTopOf="@+id/imgNuevaJoya" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

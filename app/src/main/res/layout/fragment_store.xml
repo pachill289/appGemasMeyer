@@ -10,7 +10,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="601dp">
 
         <TextView
             android:id="@+id/txtTituloTienda"
@@ -27,7 +27,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcView"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="400dp"
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.714"
@@ -38,75 +38,43 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="409dp"
-            android:layout_height="300dp"
+            android:layout_height="330dp"
             android:layout_marginTop="1dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rcView">
 
             <Button
-                android:id="@+id/btnPedir"
-                android:layout_width="116dp"
+                android:id="@+id/btnAr"
+                android:layout_width="200dp"
                 android:layout_height="60dp"
-                android:layout_marginTop="170dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/boton"
-                android:text="@string/btn_texto_pedir"
+                android:drawableEnd="@android:drawable/presence_video_away"
+                android:text="@string/btn_ar"
                 android:textColor="#fff"
                 android:textSize="18sp"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.156"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/btnBorrar"
-                android:layout_width="116dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="6dp"
-                android:background="@drawable/boton"
-                android:text="@string/btn_texto_borrar"
-                android:textColor="#fff"
-                android:textSize="18sp"
-                app:layout_constraintEnd_toStartOf="@+id/txtTotal"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/btnPedir"
-                app:layout_constraintTop_toBottomOf="@+id/listProductos" />
-
-            <TextView
-                android:id="@+id/txtDetalle"
-                style="@style/titulo_nom_producto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/text_detalle_pedido"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.185"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/txtTotal"
-                style="@style/titulo_nom_producto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="168dp"
-                android:text="TextView"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.738"
-                app:layout_constraintStart_toEndOf="@+id/txtDetalle"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ListView
-                android:id="@+id/listProductos"
-                android:layout_width="300dp"
-                android:layout_height="114dp"
-                android:layout_marginStart="80dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="90dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageButton
+            android:id="@+id/imgBtnCarrito"
+            android:layout_width="73dp"
+            android:layout_height="61dp"
+            android:layout_marginTop="20dp"
+            android:contentDescription="Carrito de compras"
+            android:src="@drawable/baseline_add_shopping_cart_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.681"
+            app:layout_constraintStart_toEndOf="@+id/txtTituloTienda"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

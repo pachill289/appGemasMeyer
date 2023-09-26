@@ -6,23 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.example.gemasmeyerapp_ver2.Data.Constantes
 import com.example.gemasmeyerapp_ver2.Models.Producto
-import com.example.gemasmeyerapp_ver2.Models.ProductoCompra
+import com.example.gemasmeyerapp_ver2.Models.ProductoCarrito
 import com.example.gemasmeyerapp_ver2.Views.StoreFragment
 import com.example.gemasmeyerapp_ver2.databinding.FragmentStoreBinding
-private const val ARG_PARAM1 = "nombreProducto"
+private const val ARG_PARAM1 = "productos"
+private const val ARG_PARAM2 = "precioProducto"
 class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentStoreBinding): RecyclerView.Adapter<AdaptadorProductos.ViewHolderProductos>() {
     private var montoTotal = 0
     private var listaProductos = listaP
     private var actividadFragmentStore = storeFragment
     private val datosDetalleCompra = mutableListOf<String>()
     private lateinit var adaptadorListaDetalles : ArrayAdapter<String>
-    private val listaProductoCompra = mutableListOf<ProductoCompra>()
+    private lateinit var productoCarrito : ProductoCarrito
+    private lateinit var productos : ArrayList<String>
+    private val listaProductoCarrito = mutableListOf<ProductoCarrito>()
     private var nuevaCantidad = 1
     private var total = 0
     private var bundle = Bundle()
@@ -42,16 +44,9 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderProductos {
         val vista = LayoutInflater.from(parent.context).inflate(R.layout.item_productos,null,false)
-        adaptadorListaDetalles = ArrayAdapter(actividadFragmentStore.root.context, R.layout.item_list_det_producto, datosDetalleCompra)
-        actividadFragmentStore.listProductos.adapter = adaptadorListaDetalles
-        actividadFragmentStore.btnBorrar.setOnClickListener {
-            datosDetalleCompra.clear()
-            adaptadorListaDetalles.clear()
-            listaProductoCompra.clear()
-            bundle.clear()
-            total = 0
-            actividadFragmentStore.txtTotal.text = "Total: Bs.${total}"
-        }
+        adaptadorListaDetalles = ArrayAdapter(actividadFragmentStore.root.context, R.layout.item_producto_carrito, datosDetalleCompra)
+        //actividadFragmentStore.listProductos.adapter = adaptadorListaDetalles
+        productos = arrayListOf()
         return ViewHolderProductos(vista)
     }
 
@@ -116,8 +111,14 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
         holder.btnAgregarProducto.setOnClickListener {
             //Pasar el id del producto seleccionado
             val st = FragmentManager.findFragment<StoreFragment>(actividadFragmentStore.root)
-            st.arguments?.putString(ARG_PARAM1,listaProductos[position].nombre)
-            if(!listaProductoCompra.contains(ProductoCompra(nuevaCantidad, listaProductos[position].precio))) {
+            val args = Bundle()
+            productoCarrito = ProductoCarrito(listaProductos[position].idProducto,listaProductos[position].nombre,
+                nuevaCantidad,
+                listaProductos[position].precio)
+            args.putParcelable(ARG_PARAM1,productoCarrito)
+            st.arguments = args
+
+            if(!listaProductoCarrito.contains(ProductoCarrito(listaProductos[position].idProducto,listaProductos[position].nombre,nuevaCantidad, listaProductos[position].precio))) {
                 adaptadorListaDetalles.add(
                     """
                 ---------------------------------
@@ -127,15 +128,17 @@ class AdaptadorProductos(listaP: MutableList<Producto>,storeFragment: FragmentSt
 
             """.trimIndent()
                 )
-                listaProductoCompra.add(
-                    ProductoCompra(
+                listaProductoCarrito.add(
+                    ProductoCarrito(
+                        listaProductos[position].idProducto,
+                        listaProductos[position].nombre,
                         nuevaCantidad,
                         listaProductos[position].precio
                     )
                 )
 
                 total += nuevaCantidad * listaProductos[position].precio
-                actividadFragmentStore.txtTotal.text = "Total: Bs.${total}"
+                //actividadFragmentStore.txtTotal.text = "Total: Bs.${total}"
             }
             else
             {

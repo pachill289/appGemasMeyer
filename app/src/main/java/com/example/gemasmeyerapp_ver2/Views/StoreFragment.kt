@@ -1,49 +1,54 @@
 package com.example.gemasmeyerapp_ver2.Views
 
+import android.R
 import android.annotation.SuppressLint
-import android.os.Build
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.preference.PreferenceManager
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
+import androidx.core.content.FileProvider
 import androidx.core.view.isNotEmpty
-import androidx.fragment.app.FragmentTransaction
-import com.example.gemasmeyerapp_ver2.Data.ProductoRepository
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.gemasmeyerapp_ver2.AdaptadorProductos
+import com.example.gemasmeyerapp_ver2.CarritoAdapter
 import com.example.gemasmeyerapp_ver2.Data.Constantes
 import com.example.gemasmeyerapp_ver2.Data.PedidoRepository
+import com.example.gemasmeyerapp_ver2.Data.ProductoRepository
 import com.example.gemasmeyerapp_ver2.Data.UsuarioRepository
 import com.example.gemasmeyerapp_ver2.DescargarImagenes
 import com.example.gemasmeyerapp_ver2.Models.Pedido
 import com.example.gemasmeyerapp_ver2.Models.Producto
+import com.example.gemasmeyerapp_ver2.Models.ProductoCarrito
 import com.example.gemasmeyerapp_ver2.Models.Usuario
-import com.example.gemasmeyerapp_ver2.R
+import com.example.gemasmeyerapp_ver2.R.*
 import com.example.gemasmeyerapp_ver2.databinding.FragmentStoreBinding
-import com.google.firebase.auth.FirebaseAuth
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.File
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "nombreProducto"
-private const val ARG_PARAM2 = "param2"
+private const val ARG_PARAM1 = "productos"
+private const val ARG_PARAM2 = "precioProducto"
+private const val ARG_PARAM3 = "cantidadProducto"
 /**
  * A simple [Fragment] subclass.
  * Use the [StoreFragment.newInstance] factory method to
@@ -51,10 +56,10 @@ private const val ARG_PARAM2 = "param2"
  */
 class StoreFragment : Fragment() {
     // TODO: Rename and change types of parameters
-    private var paramNombreProducto: String? = null
-    private var param2: String? = null
     private lateinit var repositorioProductos : ProductoRepository
     private var respuestaRegistro : Boolean? = null
+    private lateinit var listaPedidos : MutableList<ProductoCarrito>
+    private lateinit var customDialogView : View
     private lateinit var binding: FragmentStoreBinding
     private lateinit var usuario: Usuario
     private lateinit var listaProductos: MutableList<Producto>
@@ -65,10 +70,6 @@ class StoreFragment : Fragment() {
     val gson = Gson()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            paramNombreProducto = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
     //calcular fecha actual
     @SuppressLint("SimpleDateFormat")
@@ -98,12 +99,74 @@ class StoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
+        //Recuperar los productos del cliente
+        listaPedidos = mutableListOf()
+        recuperarProductosCarrito()
         binding = FragmentStoreBinding.inflate(inflater, container, false)
+        val adapter = CarritoAdapter(requireContext(), listaPedidos)
+        val btnPedir = customDialogView.findViewById<Button>(com.example.gemasmeyerapp_ver2.R.id.btnPedirProcCarrito)
+        val btnBorrar = customDialogView.findViewById<Button>(com.example.gemasmeyerapp_ver2.R.id.btnBorrarProcCarrito)
         poblarLista()
         obtenerUsuarioApi()
-        binding.txtTotal.text = "Total: ${0}"
 
-        binding.btnPedir.setOnClickListener {
+        //binding.txtTotal.text = "Total: ${0}"
+        binding.btnAr.setOnClickListener {
+            openExternalApkFile()
+        }
+        binding.imgBtnCarrito.setOnClickListener {
+            val customDialogView2 : View = layoutInflater.inflate(layout.item_list_carrito, null)
+            customDialogView = customDialogView2
+            val btnBorrar = customDialogView.findViewById<Button>(com.example.gemasmeyerapp_ver2.R.id.btnBorrarProcCarrito)
+            val btnPedir = customDialogView.findViewById<Button>(com.example.gemasmeyerapp_ver2.R.id.btnPedirProcCarrito)
+            btnBorrar.setOnClickListener {
+                listaPedidos.clear()
+                adapter.notifyDataSetChanged()
+                Toast.makeText(requireContext(),"Productos eliminados",Toast.LENGTH_SHORT).show()
+            }
+            btnPedir.setOnClickListener {
+                fechaActual = obtenerFechaActualEnFormatoDeseado()
+                if(listaPedidos.size != 0)
+                {
+                    listaPedidos.forEach {
+                        val pedidoNuevo = Pedido(null,usuario.ci,it.idProducto,3, it.cantidad,
+                            fechaActual!!
+                        )
+                        val pedidoRepository = PedidoRepository()
+                        val llamadaPedido = pedidoRepository.registrarPedido(pedidoNuevo)
+                        llamadaPedido.enqueue(object : Callback<Boolean> {
+                            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                                if (response.isSuccessful) {
+                                    // Solicitud exitosa, maneja la respuesta aquí
+                                    Constantes.showAlert(binding.root.context,"Mensaje","Pedido realizado con éxito",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
+                                    respuestaRegistro = response.body()
+                                } else {
+                                    Constantes.showAlert(binding.root.context,"Error","Se ha producido un error al realizar el pedido",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
+                                }
+                            }
+                            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                                Constantes.showAlert(binding.root.context,"Error de servidor","Se ha producido un error: $t",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
+                            }
+                        })
+                    }
+                }
+            }
+            val listaProductosCarrito = customDialogView2.findViewById<ListView>(com.example.gemasmeyerapp_ver2.R.id.listPedidos)
+            listaProductosCarrito.adapter = adapter
+            val objetoRecibido = arguments?.getParcelable<ProductoCarrito>(ARG_PARAM1)
+            if (objetoRecibido != null) {
+                listaPedidos.add(objetoRecibido)
+                adapter.notifyDataSetChanged()
+            }
+            if(listaPedidos.size != 0)
+            {
+                Constantes.showAlert(binding.root.context,"Carrito","",Constantes.Companion.TIPO_ALERTA.CARRITO,customDialogView2)
+            }
+            else
+            {
+                Constantes.showAlert(binding.root.context,"Carrito","El carrito esta vacío",Constantes.Companion.TIPO_ALERTA.CARRITO,customDialogView2)
+            }
+        }
+        /*binding.btnPedir.setOnClickListener {
             if(binding.listProductos.isNotEmpty()) {
                 val productoPedido = binding.listProductos.getItemAtPosition(0)
                 //Uso de expresión regular para hallar el producto de acuerdo a esta cadena:
@@ -148,12 +211,62 @@ class StoreFragment : Fragment() {
                         }
                     })
                 }
-            }
+            }*/
             //val pedidoNuevo = Pedido(usuarioObtenido.ci,)
             //Realizar petición POST para insertar un nuevo pedido
         setUpRecylcerView()
 
         return binding.root
+    }
+
+    private fun recuperarProductosCarrito() {
+        customDialogView = layoutInflater.inflate(layout.item_list_carrito, null)
+
+        //Obtener el producto desde el adaptador
+    }
+
+    private fun openExternalApkFile() {
+
+        /*val apkFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "esteeselnuevo.apk")
+        val apkUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", apkFile)
+        val installIntent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(apkUri, "application/vnd.android.package-archive")
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        startActivity(installIntent)*/
+        // Create an Intent with action ACTION_INSTALL_PACKAGE
+        lifecycleScope.launch {
+            val intent = Intent(Intent.ACTION_INSTALL_PACKAGE)
+
+            // Set the data URI to the APK file's path
+            val apkUri = Uri.fromFile(
+                File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    "2021AURP_base.apk"
+                )
+            )
+            intent.data = apkUri
+
+            // Optionally, set flags based on your requirements
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+
+            // Check the Android version to handle file URIs correctly
+            // For Android Nougat (API level 24) and higher, use FileProvider
+            val fileProviderUri = FileProvider.getUriForFile(
+                binding.root.context,
+                binding.root.context.packageName + ".provider",
+                File(
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+                    "esteeselnuevo.apk"
+                )
+            )
+            intent.data = fileProviderUri
+
+            // Start the package installer
+            startActivity(intent)
+        }
     }
     private fun obtenerUsuarioApi() {
         val repositorioUsuarios = UsuarioRepository()
@@ -162,7 +275,7 @@ class StoreFragment : Fragment() {
             val usuariosJson = repositorioUsuarios.obtenerUsuarios()
             listaUsuarios =
                 gson.fromJson(usuariosJson, object : TypeToken<MutableList<Usuario>>() {}.type)
-            val prefs =  requireContext().getSharedPreferences(getString(R.string.prefs_file),
+            val prefs =  requireContext().getSharedPreferences(getString(string.prefs_file),
                 AppCompatActivity.MODE_PRIVATE
             )
             //recuperar el usuario con el email

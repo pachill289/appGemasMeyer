@@ -7,6 +7,8 @@
     <string name="hint_ci">Ingrese su ci</string>
     <string name="hint_nombre_completo">Ingrese su nombre</string>
     <string name="hint_password">Ingrese su contraseña</string>
+    <string name="hint_prompt">Ingrese su descripción</string>
+    <string name="hint_referencia">Ingrese su imagen de referencia</string>
     <string name="text_btn_registro">Registrarse 📄</string>
     <string name="text_btn_login">Login 🔑</string>
     <string name="text_btn_info">Mas información 📜</string>
@@ -28,8 +30,12 @@
     <string name="txt_cantidad_producto">99</string>
     <string name="btn_texto_comprar">Comprar</string>
     <string name="btn_texto_pedir">Pedir</string>
+    <string name="btn_texto_anillo">Anillo</string>
     <string name="btn_texto_borrar">Borrar</string>
     <string name="btn_texto_agregar">Agregar</string>
+    <string name="btn_texto_generar">Generar imagen</string>
+    <string name="btn_texto_pedido">Realizar pedido</string>
+    <string name="btn_ar">Ver joyas en AR</string>
     <string name="item_nombre">Producto:</string>
     <string name="item_cantidad">Cantidad:</string>
     <string name="item_precio">Precio:</string>
@@ -38,5 +44,7 @@
     <!-- Fragments -->
     <string name="txt_perfil">Perfil</string>
     <string name="txt_tienda">Tienda</string>
-    <string name="txt_tercera_screen">Tercera pantalla</string>
+    <string name="txt_img_ia">Crea tu propia joya con IA</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -10,16 +10,16 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="357dp"
         android:layout_marginTop="10dp"
+        app:cardBackgroundColor="@color/indigo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rcView"
-        app:cardBackgroundColor="@color/indigo">
+        app:layout_constraintTop_toBottomOf="@+id/rcView">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="300dp">
+            android:layout_height="356dp">
 
             <Button
                 android:id="@+id/btnAgregar"
