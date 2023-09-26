@@ -6,13 +6,13 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" /> <!-- Sceneform requires OpenGL ES 3.0 or later. -->
-
     <uses-feature
         android:glEsVersion="0x00030000"
         android:required="true" /> <!-- Permisos realidad aumentada -->
     <uses-feature
         android:name="android.hardware.camera.ar"
         android:required="true" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,16 +21,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".Views.PublicacionesActivity"
+            android:exported="false" />
         <!-- Archivos externos -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
         <activity
             android:name=".Views.HomeActivity"
             android:exported="true"
@@ -53,14 +57,10 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!-- Sin usar para ARCore
-        <meta-data
-            android:name="com.google.ar.core"
-            android:value="required" />
-            -->
     </application>
 
 </manifest>

@@ -36,6 +36,7 @@
     <string name="btn_texto_generar">Generar imagen</string>
     <string name="btn_texto_pedido">Realizar pedido</string>
     <string name="btn_ar">Ver joyas en AR</string>
+    <string name="btn_publicaciones">Ver publicaciones</string>
     <string name="item_nombre">Producto:</string>
     <string name="item_cantidad">Cantidad:</string>
     <string name="item_precio">Precio:</string>

@@ -47,19 +47,35 @@
 
             <Button
                 android:id="@+id/btnAr"
-                android:layout_width="200dp"
+                android:layout_width="170dp"
                 android:layout_height="60dp"
-                android:layout_marginStart="32dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/boton"
                 android:drawableEnd="@android:drawable/presence_video_away"
                 android:text="@string/btn_ar"
                 android:textColor="#fff"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnPublicaciones"
+                android:layout_width="170dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/boton"
+                android:drawableEnd="@android:drawable/presence_away"
+                android:text="@string/btn_publicaciones"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.407"
+                app:layout_constraintStart_toEndOf="@+id/btnAr"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

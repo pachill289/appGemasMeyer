@@ -113,6 +113,9 @@ class StoreFragment : Fragment() {
         binding.btnAr.setOnClickListener {
             openExternalApkFile()
         }
+        binding.btnPublicaciones.setOnClickListener {
+            Constantes.pasarPantalla(requireContext(),PublicacionesActivity::class.java)
+        }
         binding.imgBtnCarrito.setOnClickListener {
             val customDialogView2 : View = layoutInflater.inflate(layout.item_list_carrito, null)
             customDialogView = customDialogView2
