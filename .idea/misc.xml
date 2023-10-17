@@ -1,0 +1,49 @@
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable-v24/ic_email_focused.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.15" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable-v24/ic_password_focused.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/bg_boton.xml" value="0.1" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/boton.xml" value="0.1495" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/boton_normal.xml" value="0.1" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/boton_presionado.xml" value="0.1495" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/custom_email_icon.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/custom_input.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/custom_password_icon.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/ic_app_settings.xml" value="0.1385" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/ic_email.xml" value="0.1365" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/ic_google_color.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/ic_launcher_background.xml" value="0.15" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/ic_password.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/ic_password_lock_solid_svgrepo_com.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/input_field.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/roundstyle.xml" value="0.1" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/screen_login.xml" value="0.1365" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/drawable/splash_screen.xml" value="0.1625" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/font-v26/amatic.xml" value="0.5" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/font/amatic.xml" value="0.234375" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/font/amatic_bold.xml" value="0.109375" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/layout/activity_info.xml" value="0.16" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/layout/activity_main.xml" value="0.22" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/layout/activity_registro.xml" value="0.25" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/layout/fragment_store.xml" value="0.25" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/layout/fragment_third.xml" value="0.25" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/layout/fragment_user.xml" value="0.25" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/menu/menu_navigation.xml" value="0.25" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.103" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.15" />
+        <entry key="..\:/ProyectosAndroidStudio/AppGemasMeyer/app/src/main/res/xml/styles.xml" value="0.18478260869565216" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
