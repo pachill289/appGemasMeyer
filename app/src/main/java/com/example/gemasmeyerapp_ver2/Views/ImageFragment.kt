@@ -85,7 +85,7 @@ class ImageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentImageBinding.inflate(inflater, container, false)
-        Constantes.showAlert(requireContext(),"Mensaje","Usted puede generar únicamente 10 imágenes por mes. \n si le gusta una imagen, guarde la imagen y envíela al recepcionista con el botón realizar pedido para que el recepcionista considere su pedido",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
+        //Constantes.showAlert(requireContext(),"Mensaje","Usted puede generar únicamente 10 imágenes por mes. \n si le gusta una imagen, guarde la imagen y envíela al recepcionista con el botón realizar pedido para que el recepcionista considere su pedido",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
         binding.prBarImagenNuevaJoya.visibility = View.INVISIBLE
         openAI = OpenAI(Constantes.API_KEY_OPENAI)
         binding.btnGenerar.setOnClickListener {
@@ -116,10 +116,9 @@ class ImageFragment : Fragment() {
     private fun generarImagen() {
         lifecycleScope.launch {
             try {
-                /*
+                binding.prBarImagenNuevaJoya.visibility = View.VISIBLE
                 val imagenes =
                     openAI?.imageURL(ImageCreation(binding.etPrompt.text.toString(),1, ImageSize.is1024x1024))
-                binding.prBarImagenNuevaJoya.visibility = View.VISIBLE
                 if (imagenes != null) {
                     binding.imgNuevaJoya.load(imagenes.firstOrNull()?.url){
                         listener(onError = { request, throwable ->
@@ -129,15 +128,14 @@ class ImageFragment : Fragment() {
                             binding.prBarImagenNuevaJoya.visibility = View.GONE // Ocultar ProgressBar determinado una vez que la imagen se haya cargado
                         })
                     }
-                }*/
-                generateImage(binding.etPrompt.text.toString())
-
+                }
             } catch (e: Exception) {
                 Constantes.showAlert(requireContext(),"Mensaje","${e.cause?.message}",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
             }
             //Constantes.showAlert(requireContext(),"Mensaje","Generando imagen",Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
         }
     }
+    /*deepAI
     private fun generateImage(prompt: String) {
         deepAI = DeepIARepository()
         val promptText = DeepAIRequest(binding.etPrompt.text.toString())
@@ -160,7 +158,7 @@ class ImageFragment : Fragment() {
                 Constantes.showAlert(requireContext(),"Error",t.message.toString(),Constantes.Companion.TIPO_ALERTA.ALERTA_SIMPLE)
             }
         })
-    }
+    }*/
     //@RequiresApi(Build.VERSION_CODES.N)
     /*private fun createModelRenderable(hitResult: HitResult) {
         val anchor: Anchor = hitResult.createAnchor()
